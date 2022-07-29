@@ -1,2 +1,5 @@
-# unity-git-template
-A git template for Unity projects.
+# Character Controller 2D for Unity
+
+A full-featured Character Controller 2D for Unity.
+
+Currently in development.
