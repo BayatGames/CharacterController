@@ -12,9 +12,9 @@ namespace Bayat.Games.Characters.Controller2D
         protected CharacterAbilityManager abilityManager;
 
         [SerializeField]
-        protected new Rigidbody2D rigidbody2D;
+        protected RigidbodyWrapper rigidbodyWrapper;
         [SerializeField]
-        protected new Collider2D collider2D;
+        protected ColliderWrapper colliderWrapper;
 
         private void Reset()
         {
