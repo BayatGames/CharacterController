@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class WayPointQueueFollower : MonoBehaviour
+public class WayPointTargetFollower : MonoBehaviour
 {
 
     [Header("References")]
@@ -46,6 +46,8 @@ public class WayPointQueueFollower : MonoBehaviour
 
     protected int lastWayPointIndex = -1;
     protected WayPoint lastWayPoint;
+
+    protected WayPoint goalWayPoint;
 
     protected bool delayPassed = false;
 
@@ -121,6 +123,54 @@ public class WayPointQueueFollower : MonoBehaviour
                 this.delayPassed = false;
             }
             yield return null;
+        }
+    }
+
+    public void SetGoalWayPoint()
+    {
+        var newIndex = Random.Range(0, this.wayPointController.WayPoints.Count);
+        Debug.Log(newIndex);
+        SetGoalWayPoint(newIndex);
+    }
+
+    public void SetGoalWayPoint(int index)
+    {
+        SetGoalWayPoint(this.wayPointController.WayPoints[index]);
+    }
+
+    public void SetGoalWayPoint(WayPoint wayPoint)
+    {
+        this.goalWayPoint = wayPoint;
+        this.nextWayPoints.Clear();
+        int startIndex = this.currentWayPointIndex;
+        if (this.targetWayPointIndex >= 0)
+        {
+            startIndex = this.targetWayPointIndex;
+        }
+        if (this.goalWayPoint == this.currentWayPoint)
+        {
+            this.targetWayPoint = this.currentWayPoint;
+        }
+        else
+        {
+            this.targetWayPoint = null;
+            var goalIndex = this.wayPointController.WayPoints.IndexOf(this.goalWayPoint);
+            if (goalIndex > startIndex)
+            {
+                for (int i = startIndex + 1; i <= goalIndex; i++)
+                {
+                    this.nextWayPoints.Enqueue(this.wayPointController.WayPoints[i]);
+                    Debug.Log(this.wayPointController.WayPoints[i]);
+                }
+            }
+            else
+            {
+                for (int i = startIndex - 1; i >= goalIndex; i--)
+                {
+                    this.nextWayPoints.Enqueue(this.wayPointController.WayPoints[i]);
+                    Debug.Log(this.wayPointController.WayPoints[i]);
+                }
+            }
         }
     }
 
