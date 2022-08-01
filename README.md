@@ -1,4 +1,4 @@
-# Character Controller 2D for Unity
+# Character Controller for Unity
 
 A full-featured Character Controller 2D for Unity.
 
