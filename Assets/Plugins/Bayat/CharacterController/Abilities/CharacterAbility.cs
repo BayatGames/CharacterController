@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bayat.Games.Characters.Controller
+namespace Bayat.Games.Characters
 {
 
     /// <summary>
