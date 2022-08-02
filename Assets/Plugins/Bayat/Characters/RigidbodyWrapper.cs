@@ -8,6 +8,7 @@ namespace Bayat.Games.Characters
     /// <summary>
     /// A wrapper for both <see cref="Rigidbody"/> and <see cref="Rigidbody2D"/> as a unified API.
     /// </summary>
+    [AddComponentMenu("Bayat/Games/Rigidbody Wrapper")]
     public class RigidbodyWrapper : MonoBehaviour
     {
 
@@ -291,6 +292,10 @@ namespace Bayat.Games.Characters
         {
             this.rigidbody = GetComponent<Rigidbody>();
             this.rigidbody2D = GetComponent<Rigidbody2D>();
+            if (this.rigidbody == null && this.rigidbody2D == null)
+            {
+                Debug.LogWarning("There are no rigidbodies available on this game object.");
+            }
         }
 
         #endregion

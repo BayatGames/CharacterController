@@ -11,6 +11,7 @@ namespace Bayat.Games.Characters
     /// <remarks>
     /// The events are called as Any because they're called if any collision occurs in 2D or 3D through their distinctive events, and then calls the corresponding Any event.
     /// </remarks>
+    [AddComponentMenu("Bayat/Games/Collider Wrapper")]
     public class ColliderWrapper : MonoBehaviour
     {
 
@@ -119,6 +120,10 @@ namespace Bayat.Games.Characters
         {
             this.collider = GetComponent<Collider>();
             this.collider2D = GetComponent<Collider2D>();
+            if (this.collider == null && this.collider2D == null)
+            {
+                Debug.LogWarning("There are no colliders available on this game object.");
+            }
         }
 
         #endregion
