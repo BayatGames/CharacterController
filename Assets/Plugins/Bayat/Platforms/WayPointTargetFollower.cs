@@ -86,6 +86,7 @@ public class WayPointTargetFollower : MonoBehaviour
                 {
                     NextWayPoint();
                 }
+                Debug.LogWarning("Reached");
             }
             //var distanceSquared = (transform.position - this.targetWayPoint.transform.position).sqrMagnitude;
             //if (distanceSquared < this.checkDistance * this.checkDistance)
@@ -126,11 +127,16 @@ public class WayPointTargetFollower : MonoBehaviour
         }
     }
 
-    public void SetGoalWayPoint()
+    public void RandomGoalWayPoint()
     {
         var newIndex = Random.Range(0, this.wayPointController.WayPoints.Count);
         Debug.Log(newIndex);
         SetGoalWayPoint(newIndex);
+    }
+
+    public void SetGoalWayPoint()
+    {
+        SetGoalWayPoint(this.firstWayPointIndex);
     }
 
     public void SetGoalWayPoint(int index)
@@ -142,36 +148,86 @@ public class WayPointTargetFollower : MonoBehaviour
     {
         this.goalWayPoint = wayPoint;
         this.nextWayPoints.Clear();
+        int goalIndex = this.wayPointController.WayPoints.IndexOf(this.goalWayPoint);
         int startIndex = this.currentWayPointIndex;
         if (this.targetWayPointIndex >= 0)
         {
             startIndex = this.targetWayPointIndex;
         }
-        if (this.goalWayPoint == this.currentWayPoint)
+        Debug.LogFormat("Current waypoint index: {0}", this.currentWayPointIndex);
+        Debug.LogFormat("Target waypoint index: {0}", this.targetWayPointIndex);
+        Debug.LogFormat("Goal waypoint index: {0}", goalIndex);
+        Debug.LogFormat("Current waypoint: {0}", this.currentWayPoint);
+        Debug.LogFormat("Target waypoint: {0}", this.targetWayPoint);
+        //if (this.goalWayPoint == this.currentWayPoint)
+        //{
+        //    this.targetWayPoint = this.currentWayPoint;
+        //    this.targetWayPointIndex = this.currentWayPointIndex;
+        //    this.delayPassed = true;
+        //    Debug.LogWarning("Going back to current");
+        //}
+        //else
+        //{
+        this.delayPassed = true;
+        int skip = 1;
+        if ((this.targetWayPointIndex > this.currentWayPointIndex && goalIndex > this.currentWayPointIndex) ||
+            (this.targetWayPointIndex < this.currentWayPointIndex && goalIndex < this.currentWayPointIndex))
         {
-            this.targetWayPoint = this.currentWayPoint;
+            startIndex = this.targetWayPointIndex;
+            skip = 0;
         }
-        else
+        else if (this.targetWayPoint != null)
         {
-            this.targetWayPoint = null;
-            var goalIndex = this.wayPointController.WayPoints.IndexOf(this.goalWayPoint);
-            if (goalIndex > startIndex)
+            if (this.currentWayPointIndex == this.targetWayPointIndex)
             {
-                for (int i = startIndex + 1; i <= goalIndex; i++)
+                if (goalIndex > this.currentWayPointIndex)
                 {
-                    this.nextWayPoints.Enqueue(this.wayPointController.WayPoints[i]);
-                    Debug.Log(this.wayPointController.WayPoints[i]);
+                    skip = 1;
+                }
+                else
+                {
+                    skip = 0;
                 }
             }
             else
             {
-                for (int i = startIndex - 1; i >= goalIndex; i--)
-                {
-                    this.nextWayPoints.Enqueue(this.wayPointController.WayPoints[i]);
-                    Debug.Log(this.wayPointController.WayPoints[i]);
-                }
+                skip = 0;
+            }
+            //if (this.targetWayPoint == this.goalWayPoint)
+            //{
+            //    startIndex = this.targetWayPointIndex;
+            //}
+            //else
+            //{
+            startIndex = this.currentWayPointIndex;
+            //}
+            //if (this.targetWayPointIndex < this.currentWayPointIndex && goalIndex <= this.targetWayPointIndex)
+            //{
+            //    skip = 1;
+            //}
+            //else
+            //{
+            //    skip = 0;
+            //}
+        }
+        this.targetWayPoint = null;
+        if (goalIndex > startIndex)
+        {
+            for (int i = startIndex + skip; i <= goalIndex; i++)
+            {
+                this.nextWayPoints.Enqueue(this.wayPointController.WayPoints[i]);
+                Debug.Log(this.wayPointController.WayPoints[i]);
             }
         }
+        else
+        {
+            for (int i = startIndex - skip; i >= goalIndex; i--)
+            {
+                this.nextWayPoints.Enqueue(this.wayPointController.WayPoints[i]);
+                Debug.Log(this.wayPointController.WayPoints[i]);
+            }
+        }
+        //}
     }
 
     public void NextWayPoint()
