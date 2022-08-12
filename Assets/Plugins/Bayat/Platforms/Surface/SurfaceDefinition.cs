@@ -11,6 +11,9 @@ namespace Bayat.Games.Surfaces
         #region Fields
 
         [SerializeField]
+        protected string identifier;
+
+        [SerializeField]
         [Tooltip("Optional")]
         protected string title;
         [SerializeField]
@@ -20,6 +23,18 @@ namespace Bayat.Games.Surfaces
         #endregion
 
         #region Properties
+
+        public virtual string Identifier
+        {
+            get
+            {
+                return this.identifier;
+            }
+            set
+            {
+                this.identifier = value;
+            }
+        }
 
         public virtual string Title
         {

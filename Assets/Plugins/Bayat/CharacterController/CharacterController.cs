@@ -20,6 +20,24 @@ namespace Bayat.Games.Characters
         [SerializeField]
         protected CharacterAbilityManager abilityManager;
 
+        protected RigidbodyWrapper rigidbodyWrapper;
+
+        #endregion
+
+        #region
+
+        public virtual Vector3 Velocity
+        {
+            get
+            {
+                return this.rigidbodyWrapper.Velocity;
+            }
+            set
+            {
+                this.rigidbodyWrapper.Velocity = value;
+            }
+        }
+
         #endregion
 
         #region Unity Messages

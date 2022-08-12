@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bayat.Games.Physics
+namespace Bayat.Games.PhysicsExtras
 {
 
     /// <summary>
