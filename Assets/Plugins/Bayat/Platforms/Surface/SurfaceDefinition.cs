@@ -8,12 +8,18 @@ namespace Bayat.Games.Surfaces
     public class SurfaceDefinition : ScriptableObject
     {
 
+        #region Fields
+
         [SerializeField]
         [Tooltip("Optional")]
         protected string title;
         [SerializeField]
         [Tooltip("Optional")]
         protected string description;
+
+        #endregion
+
+        #region Properties
 
         public virtual string Title
         {
@@ -38,6 +44,8 @@ namespace Bayat.Games.Surfaces
                 this.description = value;
             }
         }
+
+        #endregion
 
     }
 

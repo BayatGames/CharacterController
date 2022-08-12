@@ -154,6 +154,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayInSeconds: 1
   speed: 1
+  reachedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &39153873
 Transform:
   m_ObjectHideFlags: 0
@@ -549,7 +552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &944162917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,16 +566,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 944162918}
-  wayPointController: {fileID: 1779603652}
+  path: {fileID: 1779603652}
   useWayPointSpeed: 0
   speed: 3
   useWayPointDelay: 0
   delayInSeconds: 0
   checkDistance: 0.1
   setPositionOnStart: 1
-  activateOnStart: 1
   autoMoveNext: 0
   firstWayPointIndex: 0
+  sendMessageToWayPoint: 1
 --- !u!50 &944162918
 Rigidbody2D:
   serializedVersion: 4
@@ -692,6 +695,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayInSeconds: 1
   speed: 1
+  reachedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1025079000
 Transform:
   m_ObjectHideFlags: 0
@@ -738,6 +744,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayInSeconds: 1
   speed: 1
+  reachedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1127426805
 Transform:
   m_ObjectHideFlags: 0
@@ -784,6 +793,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayInSeconds: 1
   speed: 1
+  reachedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1526833978
 Transform:
   m_ObjectHideFlags: 0
@@ -938,7 +950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1800870447
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1019,7 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 1800870450}
-  wayPointController: {fileID: 1779603652}
+  path: {fileID: 1779603652}
   useWayPointSpeed: 0
   speed: 3
   useWayPointDelay: 0

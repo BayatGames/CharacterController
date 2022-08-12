@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bayat.Games.Characters
+namespace Bayat.Games.Characters.Abilities
 {
 
     /// <summary>
@@ -11,10 +11,16 @@ namespace Bayat.Games.Characters
     public abstract class CharacterAbility : MonoBehaviour
     {
 
+        #region Fields
+
         [SerializeField]
         protected CharacterController controller;
         [SerializeField]
         protected CharacterAbilityManager abilityManager;
+
+        #endregion
+
+        #region Unity Messages
 
         protected virtual void Reset()
         {
@@ -22,25 +28,31 @@ namespace Bayat.Games.Characters
             this.abilityManager = GetComponentInParent<CharacterAbilityManager>();
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Called early in the Update when processing abilities.
         /// </summary>
-        public abstract void EarlyProcessAbility();
+        public virtual void EarlyProcessAbility() { }
 
         /// <summary>
         /// Called in Update when processing abilities.
         /// </summary>
-        public abstract void ProcessAbility();
+        public virtual void ProcessAbility() { }
 
         /// <summary>
         /// Called late in the Update when processing abilities.
         /// </summary>
-        public abstract void LateProcessAbility();
+        public virtual void LateProcessAbility() { }
 
         /// <summary>
         /// Called in LateUpdate when updating Animator parameters.
         /// </summary>
-        public abstract void UpdateAnimator();
+        public virtual void UpdateAnimator() { }
+
+        #endregion
 
     }
 

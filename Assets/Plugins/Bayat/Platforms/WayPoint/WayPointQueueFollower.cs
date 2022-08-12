@@ -9,11 +9,13 @@ namespace Bayat.Games.Platforms
     public class WayPointQueueFollower : MonoBehaviour
     {
 
+        #region Fields
+
         [Header("References")]
         [SerializeField]
         protected new Rigidbody2D rigidbody2D;
         [SerializeField]
-        protected WayPointController wayPointController;
+        protected WayPointPath path;
 
         [Header("Parameters")]
         [SerializeField]
@@ -31,11 +33,12 @@ namespace Bayat.Games.Platforms
         [SerializeField]
         protected bool setPositionOnStart = true;
         [SerializeField]
-        protected bool activateOnStart = true;
-        [SerializeField]
         protected bool autoMoveNext = true;
         [SerializeField]
         protected int firstWayPointIndex = 0;
+
+        [SerializeField]
+        protected bool sendMessageToWayPoint = true;
 
         //[SerializeField]
         //[Range(-1, 1, order = 2)]
@@ -52,9 +55,13 @@ namespace Bayat.Games.Platforms
 
         protected bool delayPassed = false;
 
+        #endregion
+
+        #region Unity Messages
+
         private void Start()
         {
-            this.currentWayPoint = this.wayPointController.WayPoints[this.firstWayPointIndex];
+            this.currentWayPoint = this.path.WayPoints[this.firstWayPointIndex];
             this.currentWayPointIndex = this.firstWayPointIndex;
             if (this.autoMoveNext)
             {
@@ -83,6 +90,10 @@ namespace Bayat.Games.Platforms
                     this.currentWayPoint = this.targetWayPoint;
                     this.currentWayPointIndex = this.targetWayPointIndex;
                     this.targetWayPoint = null;
+                    if (this.sendMessageToWayPoint)
+                    {
+                        this.targetWayPoint.SendMessage("OnWayPointReached", this, SendMessageOptions.DontRequireReceiver);
+                    }
                     if (this.autoMoveNext)
                     {
                         NextWayPoint();
@@ -102,6 +113,10 @@ namespace Bayat.Games.Platforms
             }
         }
 
+        #endregion
+
+        #region Private Methods
+
         IEnumerator ProcessWayPoints()
         {
             while (true)
@@ -111,7 +126,7 @@ namespace Bayat.Games.Platforms
                     float delay = this.delayInSeconds;
                     if (this.useWayPointDelay)
                     {
-                        delay = this.currentWayPoint.DelayInSeconds;
+                        delay = this.currentWayPoint.WaitTimeInSeconds;
                     }
                     yield return new WaitForSeconds(delay);
                     this.delayPassed = true;
@@ -119,13 +134,17 @@ namespace Bayat.Games.Platforms
                 if (this.targetWayPoint == null && this.nextWayPoints.Count > 0)
                 {
                     var nextWayPoint = this.nextWayPoints.Dequeue();
-                    this.targetWayPointIndex = this.wayPointController.WayPoints.IndexOf(nextWayPoint);
+                    this.targetWayPointIndex = this.path.WayPoints.IndexOf(nextWayPoint);
                     this.targetWayPoint = nextWayPoint;
                     this.delayPassed = false;
                 }
                 yield return null;
             }
         }
+
+        #endregion
+
+        #region Public Methods
 
         public void NextWayPoint()
         {
@@ -135,13 +154,13 @@ namespace Bayat.Games.Platforms
                 index = this.lastWayPointIndex;
             }
             int nextWayPointIndex = index + this.direction;
-            if (this.wayPointController.OpenEnd)
+            if (this.path.OpenEnd)
             {
                 if (nextWayPointIndex < 0)
                 {
-                    nextWayPointIndex = this.wayPointController.WayPoints.Count - 1;
+                    nextWayPointIndex = this.path.WayPoints.Count - 1;
                 }
-                else if (nextWayPointIndex >= this.wayPointController.WayPoints.Count)
+                else if (nextWayPointIndex >= this.path.WayPoints.Count)
                 {
                     nextWayPointIndex = 0;
                 }
@@ -153,17 +172,19 @@ namespace Bayat.Games.Platforms
                     nextWayPointIndex = index + 1;
                     this.direction = 1;
                 }
-                else if (nextWayPointIndex >= this.wayPointController.WayPoints.Count)
+                else if (nextWayPointIndex >= this.path.WayPoints.Count)
                 {
-                    nextWayPointIndex = this.wayPointController.WayPoints.Count - 2;
+                    nextWayPointIndex = this.path.WayPoints.Count - 2;
                     this.direction = -1;
                 }
             }
-            var nextWayPoint = this.wayPointController.WayPoints[nextWayPointIndex];
+            var nextWayPoint = this.path.WayPoints[nextWayPointIndex];
             this.lastWayPoint = nextWayPoint;
             this.lastWayPointIndex = nextWayPointIndex;
             this.nextWayPoints.Enqueue(nextWayPoint);
         }
+
+        #endregion
 
     }
 

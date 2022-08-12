@@ -7,7 +7,7 @@ namespace Bayat.Games.Platforms
 {
 
     [ExecuteInEditMode]
-    public class WayPointController : MonoBehaviour
+    public class WayPointPath : MonoBehaviour
     {
 
         [SerializeField]

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bayat.Games.Characters
+namespace Bayat.Games.Physics
 {
 
     /// <summary>
     /// A wrapper for both <see cref="Rigidbody"/> and <see cref="Rigidbody2D"/> as a unified API.
     /// </summary>
-    [AddComponentMenu("Bayat/Games/Rigidbody Wrapper")]
+    [AddComponentMenu("Bayat/Games/Physics/Rigidbody Wrapper")]
     public class RigidbodyWrapper : MonoBehaviour
     {
 
@@ -300,7 +300,7 @@ namespace Bayat.Games.Characters
 
         #endregion
 
-        #region Methods
+        #region Public Methods
 
         /// <summary>
         /// Moves the rigidbody to the <paramref name="position"/>.

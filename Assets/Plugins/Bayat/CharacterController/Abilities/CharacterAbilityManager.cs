@@ -3,24 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bayat.Games.Characters
+using Bayat.Games.Characters.Abilities;
+
+namespace Bayat.Games.Characters.Abilities
 {
 
+    /// <summary>
+    /// The character ability manager.
+    /// </summary>
     [AddComponentMenu("Bayat/Games/Characters/Character Ability Manager")]
     public class CharacterAbilityManager : MonoBehaviour
     {
+
+        #region Fields
 
         [SerializeField]
         protected List<CharacterAbility> abilities = new List<CharacterAbility>();
 
         protected Dictionary<Type, CharacterAbility> abilitiesLookup = new Dictionary<Type, CharacterAbility>();
 
-        public virtual void UpdateAbilities()
+        #endregion
+
+        #region Unity Messages
+
+        protected virtual void Update()
         {
-            FetchNewAbilities();
-            RemoveMissingAbilities();
-            UpdateLookup();
+            EarlyProcessAbilities();
+            ProcessAbilities();
+            LateProcessAbilities();
         }
+
+        protected virtual void FixedUpdate()
+        {
+
+        }
+
+        protected virtual void LateUpdate()
+        {
+            UpdateAnimatorAbilities();
+        }
+
+        #endregion
+
+        #region Protected Methods
 
         protected virtual void FetchNewAbilities()
         {
@@ -64,23 +89,6 @@ namespace Bayat.Games.Characters
             }
         }
 
-        protected virtual void Update()
-        {
-            EarlyProcessAbilities();
-            ProcessAbilities();
-            LateProcessAbilities();
-        }
-
-        protected virtual void FixedUpdate()
-        {
-
-        }
-
-        protected virtual void LateUpdate()
-        {
-            UpdateAnimatorAbilities();
-        }
-
         protected virtual void EarlyProcessAbilities()
         {
             for (int i = 0; i < this.abilities.Count; i++)
@@ -116,6 +124,19 @@ namespace Bayat.Games.Characters
                 ability.UpdateAnimator();
             }
         }
+
+        #endregion
+
+        #region Public Methods
+
+        public virtual void UpdateAbilities()
+        {
+            FetchNewAbilities();
+            RemoveMissingAbilities();
+            UpdateLookup();
+        }
+
+        #endregion
 
     }
 

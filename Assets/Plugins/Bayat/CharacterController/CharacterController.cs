@@ -2,27 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Bayat.Games.Physics;
+
+using Bayat.Games.Characters.Abilities;
+
 namespace Bayat.Games.Characters
 {
 
-    [AddComponentMenu("Bayat/Games/Characters/Character Controller")]
-    public class CharacterController : MonoBehaviour
+    /// <summary>
+    /// The character controller.
+    /// </summary>
+    public abstract class CharacterController : MonoBehaviour
     {
+
+        #region Fields
 
         [SerializeField]
         protected CharacterAbilityManager abilityManager;
 
-        [SerializeField]
-        protected RigidbodyWrapper rigidbodyWrapper;
-        [SerializeField]
-        protected ColliderWrapper colliderWrapper;
+        #endregion
 
-        private void Reset()
+        #region Unity Messages
+
+        protected virtual void Reset()
         {
-            this.rigidbodyWrapper = GetComponent<RigidbodyWrapper>();
-            this.colliderWrapper = GetComponent<ColliderWrapper>();
             this.abilityManager = GetComponentInChildren<CharacterAbilityManager>();
         }
+
+        #endregion
 
     }
 
