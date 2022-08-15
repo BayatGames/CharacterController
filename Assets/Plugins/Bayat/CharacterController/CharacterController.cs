@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Bayat.Games.Physics;
+using Bayat.Games.PhysicsExtras;
 
 using Bayat.Games.Characters.Abilities;
 
